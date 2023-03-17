@@ -60,7 +60,7 @@ type (
 )
 
 // Driver 为view模块注册驱动
-func (this *Module) Driver(name string, driver Driver, override bool) {
+func (this *Module) Driver(name string, driver Driver) {
 	this.mutex.Lock()
 	defer this.mutex.Unlock()
 
@@ -68,7 +68,7 @@ func (this *Module) Driver(name string, driver Driver, override bool) {
 		panic("Invalid view driver: " + name)
 	}
 
-	if override {
+	if infra.Override() {
 		this.drivers[name] = driver
 	} else {
 		if this.drivers[name] == nil {
@@ -77,14 +77,14 @@ func (this *Module) Driver(name string, driver Driver, override bool) {
 	}
 }
 
-func (this *Module) Config(config Config, override bool) {
+func (this *Module) Config(config Config) {
 	this.mutex.Lock()
 	defer this.mutex.Unlock()
 
 	this.config = config
 }
 
-func (this *Module) Helper(name string, config Helper, override bool) {
+func (this *Module) Helper(name string, config Helper) {
 	this.mutex.Lock()
 	defer this.mutex.Unlock()
 
@@ -97,7 +97,7 @@ func (this *Module) Helper(name string, config Helper, override bool) {
 	}
 
 	for _, key := range alias {
-		if override {
+		if infra.Override() {
 			this.helpers[key] = config
 		} else {
 			if _, ok := this.helpers[key]; ok == false {

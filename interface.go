@@ -4,12 +4,12 @@ import (
 	. "github.com/infrago/base"
 )
 
-func (this *Module) Register(name string, value Any, override bool) {
+func (this *Module) Register(name string, value Any) {
 	switch obj := value.(type) {
 	case Driver:
-		this.Driver(name, obj, override)
+		this.Driver(name, obj)
 	case Helper:
-		this.Helper(name, obj, override)
+		this.Helper(name, obj)
 	}
 }
 func (this *Module) Configure(global Map) {
