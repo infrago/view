@@ -1,2 +1,2 @@
 # view
-infra.go view module.
+infra.Go view module.
