@@ -2,15 +2,14 @@ package view
 
 import (
 	. "github.com/infrago/base"
-	"github.com/infrago/infra"
 )
 
-func (this *Module) Register(o infra.Object) {
-	switch obj := o.Object.(type) {
+func (this *Module) Register(name string, value Any) {
+	switch obj := value.(type) {
 	case Driver:
-		this.Driver(o.Name, obj)
+		this.Driver(name, obj)
 	case Helper:
-		this.Helper(o.Name, obj)
+		this.Helper(name, obj)
 	}
 }
 func (this *Module) Configure(global Map) {
