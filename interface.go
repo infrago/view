@@ -79,6 +79,10 @@ func (this *Module) Connect() {
 		panic("Invalid view driver: " + this.config.Driver)
 	}
 
+	inst := &Instance{
+		nil, this.config, this.config.Setting,
+	}
+
 	// 建立连接
 	connect, err := driver.Connect(this.config)
 	if err != nil {
@@ -91,8 +95,11 @@ func (this *Module) Connect() {
 		panic("Failed to open view connect: " + err.Error())
 	}
 
-	// 保存连接，设置管道大小
-	this.connect = connect
+	inst.connect = connect
+
+	// 保存连接
+	// this.connect = connect
+	this.instance = inst
 
 	this.connected = true
 }

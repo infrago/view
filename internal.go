@@ -5,9 +5,11 @@ import (
 )
 
 func (this *Module) Parse(body Body) (string, error) {
-	if this.connect == nil {
-		return "", errInvalidConnection
+	if this.instance == nil {
+		return "", ErrInvalidConnection
 	}
+
+	inst := this.instance
 
 	//view层的helper
 	if body.Helpers == nil {
@@ -21,5 +23,5 @@ func (this *Module) Parse(body Body) (string, error) {
 		}
 	}
 
-	return this.connect.Parse(body)
+	return inst.connect.Parse(body)
 }

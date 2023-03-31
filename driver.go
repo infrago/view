@@ -9,7 +9,7 @@ type (
 	// LogDriver view驱动
 	Driver interface {
 		// 连接到驱动
-		Connect(config Config) (Connect, error)
+		Connect(*Instance) (Connect, error)
 	}
 	// LogConnect 日志连接
 	Connect interface {

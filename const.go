@@ -7,5 +7,5 @@ const (
 )
 
 var (
-	errInvalidConnection = errors.New("Invalid view connection.")
+	ErrInvalidConnection = errors.New("Invalid view connection.")
 )

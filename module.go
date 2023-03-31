@@ -34,8 +34,8 @@ type (
 
 		helperActions Map
 
-		config  Config
-		connect Connect
+		config   Config
+		instance *Instance
 	}
 
 	// LogConfig 日志模块配置
@@ -56,6 +56,12 @@ type (
 		Data     Map
 		Model    Map
 		Helpers  Map
+	}
+
+	Instance struct {
+		connect Connect
+		Config  Config
+		Setting Map
 	}
 )
 
