@@ -1,7 +1,11 @@
 package view
 
 import (
+	"fmt"
+	"log"
+
 	. "github.com/infrago/base"
+	"github.com/infrago/infra"
 )
 
 func (this *Module) Register(name string, value Any) {
@@ -84,7 +88,7 @@ func (this *Module) Connect() {
 	}
 
 	// 建立连接
-	connect, err := driver.Connect(this.config)
+	connect, err := driver.Connect(inst)
 	if err != nil {
 		panic("Failed to connect to view: " + err.Error())
 	}
@@ -108,11 +112,13 @@ func (this *Module) Launch() {
 		return
 	}
 
+	log.Println(fmt.Sprintf("%s VIEW is running with %d helpers.", infra.INFRAGO, len(this.helpers)))
+
 	this.launched = true
 }
 func (this *Module) Terminate() {
-	if this.connect != nil {
-		this.connect.Close()
+	if this.instance != nil {
+		this.instance.connect.Close()
 	}
 
 	this.launched = false
