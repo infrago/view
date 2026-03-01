@@ -1,59 +1,51 @@
 # view
 
-`view` 是 infrago 的模块包。
+`view` 是 infrago 的**模块**。
 
-## 安装
+## 包定位
 
-```bash
-go get github.com/infrago/view@latest
-```
+- 类型：模块
+- 作用：视图渲染模块，负责模板加载与渲染输出。
 
-## 最小接入
+## 主要功能
+
+- 对上提供统一模块接口
+- 对下通过驱动接口接入具体后端
+- 支持按配置切换驱动实现
+
+## 快速接入
 
 ```go
-package main
-
-import (
-    _ "github.com/infrago/view"
-    "github.com/infrago/infra"
-)
-
-func main() {
-    infra.Run()
-}
+import _ "github.com/infrago/view"
 ```
-
-## 配置示例
 
 ```toml
 [view]
 driver = "default"
 ```
 
-## 公开 API（摘自源码）
+## 驱动实现接口列表
 
-- `func (m *Module) Parse(body Body) (string, error)`
-- `func (d *defaultDriver) Connect(inst *Instance) (Connection, error)`
-- `func (c *defaultConnection) Open() error`
-- `func (c *defaultConnection) Health() (Health, error)`
-- `func (c *defaultConnection) Close() error`
-- `func (c *defaultConnection) Parse(body Body) (string, error)`
-- `func (p *defaultParser) Parse() (string, error)`
-- `func Parse(body Body) (string, error)`
-- `func SetFS(fsys fs.FS)`
-- `func (m *Module) Register(name string, value Any)`
-- `func (m *Module) RegisterDriver(name string, driver Driver)`
-- `func (m *Module) RegisterHelper(name string, helper Helper)`
-- `func (m *Module) RegisterConfig(config Config)`
-- `func (m *Module) Config(global Map)`
-- `func (m *Module) Setup()`
-- `func (m *Module) Open()`
-- `func (m *Module) Start()`
-- `func (m *Module) Stop()`
-- `func (m *Module) Close()`
+以下接口由驱动实现（来自模块 `driver.go`）：
 
-## 排错
+### Driver
 
-- 模块未运行：确认空导入已存在
-- driver 无效：确认驱动包已引入
-- 配置不生效：检查配置段名是否为 `[view]`
+- `Connect(*Instance) (Connection, error)`
+
+### Connection
+
+- `Open() error`
+- `Health() (Health, error)`
+- `Close() error`
+- `Parse(Body) (string, error)`
+
+## 全局配置项（所有配置键）
+
+配置段：`[view]`
+
+- 未检测到配置键（请查看模块源码的 configure 逻辑）
+
+## 说明
+
+- `setting` 一般用于向具体驱动透传专用参数
+- 多实例配置请参考模块源码中的 Config/configure 处理逻辑
